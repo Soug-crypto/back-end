@@ -43,4 +43,5 @@ const addAComment = (id, comment) => {
 };
 module.exports.saveEvent = saveEvent;
 module.exports.getAll = getAll;
+module.exports.addAComment = addAComment;
 module.exports.getOneEventById = getOneEventById;
