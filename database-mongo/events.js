@@ -34,6 +34,13 @@ const getOneEventById = id => {
   return Events.findOne({ _id: id });
 };
 
+const addAComment = (id, comment) => {
+  return Events.findByIdAndUpdate(
+    { _id: id },
+    { $push: { comments: comment } },
+    { useFindAndModify: false }
+  );
+};
 module.exports.saveEvent = saveEvent;
 module.exports.getAll = getAll;
 module.exports.getOneEventById = getOneEventById;

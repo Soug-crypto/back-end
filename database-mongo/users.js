@@ -14,10 +14,41 @@ const userSchema = mongoose.Schema({
   password: {
     required: true,
     type: String
-  }
+  },
+  fullname: {
+    type: String,
+    required: true
+  },
+  phoneNumber: String,
+  birthDate: String,
+  imgUrl: String,
+  about: String,
+  attendedEvents: []
 });
 
 const User = mongoose.model("User", userSchema);
+
+const attendEvent = (id, event) => {
+  return User.findByIdAndUpdate(
+    { _id: id },
+    { $push: { attendedEvents: event } },
+    { useFindAndModify: false }
+  );
+};
+
+const getOneById = id => {
+  return User.findOne({ _id: id });
+};
+
+const cancelAnEvent = (id, eventID) => {
+  return User.findByIdAndUpdate(
+    { _id: id },
+    {
+      $pull: { attendedEvents: { _id: 'ObjectId("5e2095802748a93fc41a948e")' } }
+    },
+    { useFindAndModify: false }
+  );
+};
 
 //function that will hash the password and save it in the users collection
 //this function return a promise
@@ -48,3 +79,6 @@ const findUser = (email, password) => {
 
 module.exports.saveUser = saveUser;
 module.exports.findUser = findUser;
+module.exports.attendEvent = attendEvent;
+module.exports.getOneById = getOneById;
+module.exports.cancelAnEvent = cancelAnEvent;

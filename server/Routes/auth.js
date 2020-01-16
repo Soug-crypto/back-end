@@ -2,7 +2,6 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../../database-mongo/users");
 const { signUpValidation } = require("../../validation");
-const Profile = require("../../database-mongo/user-profile");
 
 require("dotenv").config();
 
@@ -25,7 +24,6 @@ router.post("/signup", (req, res) => {
         username: savedUser.username,
         email: savedUser.email
       };
-      Profile.createprofile(savedUser._id, savedUser.username, savedUser.email);
       const secret = process.env.JWT_SECRET || "SoSecretThatYouWantToKnowIt";
       const expire = 3600;
       const token = jwt.sign(user, secret, {
