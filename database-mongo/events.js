@@ -14,14 +14,15 @@ const events_Schema = mongoose.Schema({
     ref: "users",
     required: true
   },
-  planId: String,
-  comments: [Object],
+  comments: [],
   rating: String
 });
 
 const Events = mongoose.model("events", events_Schema);
 
-const saveEvent = event => {
+const saveEvent = eventInfo => {
+  const event = new Events(eventInfo);
+  console.log(event);
   return event.save();
 };
 
@@ -30,7 +31,7 @@ const getAll = () => {
 };
 
 const getOneEventById = id => {
-  Events.find({ _id: id });
+  return Events.findOne({ _id: id });
 };
 
 module.exports.saveEvent = saveEvent;
