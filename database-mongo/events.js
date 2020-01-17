@@ -4,11 +4,14 @@ const events_Schema = mongoose.Schema({
   eventName: String,
   description: String,
   date: String,
-  imgUrl: String,
+  imgUrl: {
+    type: String,
+    default: "https://source.unsplash.com/random"
+  },
   video: String,
   category: String,
   cost: String,
-  planId: String,
+  location: String,
   organizerId: {
     type: mongoose.Schema.ObjectId,
     ref: "users",
@@ -22,7 +25,6 @@ const Events = mongoose.model("events", events_Schema);
 
 const saveEvent = eventInfo => {
   const event = new Events(eventInfo);
-  console.log(event);
   return event.save();
 };
 

@@ -17,7 +17,7 @@ router.post("/create", verifyToken, (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-router.get("/", (req, res) => {
+router.get("/all", (req, res) => {
   Event.getAll()
     .then(events => res.status(200).json(events))
     .catch(err => res.status(500).json(err));
