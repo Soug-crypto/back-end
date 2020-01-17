@@ -5,9 +5,8 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.post("/comments/add", verifyToken, (req, res) => {
   const comment = {
-    auther: req.user.username,
-    content: req.body.content,
-    eventID: req.body.id
+    author: req.user.username,
+    content: req.body.content
   };
   Event.addAComment(req.body.id, comment)
     .then(savedData => res.status(201).json(savedData))
