@@ -24,6 +24,7 @@ router.post("/signup", (req, res) => {
         username: savedUser.username,
         email: savedUser.email
       };
+
       const secret = process.env.JWT_SECRET || "SoSecretThatYouWantToKnowIt";
       const expire = 3600;
       const token = jwt.sign(user, secret, {
@@ -32,6 +33,7 @@ router.post("/signup", (req, res) => {
       return res.status(201).send({ saved: true, user, token });
     })
     .catch(err => {
+      console.log(err);
       res.status(201).json({
         saved: false,
         msg: "There is already an account with this email"

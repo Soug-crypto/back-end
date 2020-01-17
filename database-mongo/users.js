@@ -16,12 +16,15 @@ const userSchema = mongoose.Schema({
     type: String
   },
   fullname: {
-    type: String,
-    required: true
+    type: String
   },
   phoneNumber: String,
   birthDate: String,
-  imgUrl: String,
+  imgUrl: {
+    type: String,
+    default:
+      "http://www.herbeumont.be/macommune/vie-politique/conseil-communal/img/no-profile-image-png.png/image_view_fullscreen"
+  },
   about: String,
   attendedEvents: []
 });
@@ -32,7 +35,8 @@ const attendEvent = (id, event) => {
   return User.findByIdAndUpdate(
     { _id: id },
     { $push: { attendedEvents: event } },
-    { useFindAndModify: false }
+    { useFindAndModify: false },
+    { new: true }
   );
 };
 
@@ -44,9 +48,10 @@ const cancelAnEvent = (id, eventID) => {
   return User.findByIdAndUpdate(
     { _id: id },
     {
-      $pull: { attendedEvents: { _id: 'ObjectId("5e2095802748a93fc41a948e")' } }
+      $pull: { attendedEvents: { _id: eventID } }
     },
-    { useFindAndModify: false }
+    { useFindAndModify: false },
+    { new: true }
   );
 };
 

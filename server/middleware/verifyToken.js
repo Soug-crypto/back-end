@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 let verifyToken = (req, res, next) => {
-  const token = req.header("token");
+  const token = req.header("Authorization").split(" ")[1];
   if (!token) return res.status(401).send("You need to be connected");
 
   const verified = jwt.verify(
