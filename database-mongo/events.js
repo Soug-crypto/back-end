@@ -14,10 +14,20 @@ const events_Schema = mongoose.Schema({
   location: String,
   organizerId: {
     type: mongoose.Schema.ObjectId,
-    ref: "users",
+    ref: "User",
     required: true
   },
-  comments: [],
+  comments: [
+    {
+      author: String,
+      imgUrl: {
+        type: String,
+        default:
+          "http://www.herbeumont.be/macommune/vie-politique/conseil-communal/img/no-profile-image-png.png/image_view_fullscreen"
+      },
+      content: String
+    }
+  ],
   rating: String
 });
 
@@ -33,7 +43,10 @@ const getAll = () => {
 };
 
 const getOneEventById = id => {
-  return Events.findOne({ _id: id });
+  return Events.findOne({ _id: id }).populate({
+    path: "organizerId",
+    select: "username"
+  });
 };
 
 const addAComment = (id, comment) => {
