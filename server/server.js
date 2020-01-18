@@ -6,7 +6,7 @@ const event = require("./Routes/event");
 const profile = require("./Routes/profile");
 const cors = require("cors");
 
-const PORT = process.env.PORT || 5000;
+const PORT = 7000;
 var app = express();
 
 app.use(express.json());
@@ -16,7 +16,9 @@ app.use("/api/users", authRoute);
 app.use("/api/event", event);
 app.use("/api/profile", profile);
 app.use("/api/events", events);
-
+app.get("*", (req, res) => {
+  res.send("hi")
+})
 app.listen(PORT, function() {
   console.log(`listening, on port ${PORT}`);
 });
