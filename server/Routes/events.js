@@ -32,5 +32,8 @@ router.get("/all", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+router.post("/upload-img", upload.array("uploads[]", 12), function (req, res) {
+  res.send(req.files);
+});
 
 module.exports = router;

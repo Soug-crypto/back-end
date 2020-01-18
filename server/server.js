@@ -5,12 +5,14 @@ const events = require("./Routes/events");
 const event = require("./Routes/event");
 const profile = require("./Routes/profile");
 const cors = require("cors");
+const path = require("path");
 
 const PORT = process.env.PORT || 5000;
 var app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/users", authRoute);
 app.use("/api/event", event);
