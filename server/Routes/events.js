@@ -8,7 +8,6 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 
 router.post("/create", verifyToken, (req, res) => {
-  console.log(req.body)
   const event = {
     _id: ObjectId(req.body._id),
     organizerId: req.user._id,
@@ -20,8 +19,6 @@ router.post("/create", verifyToken, (req, res) => {
     location : req.body.location,
     imgUrl: req.body.imgUrl
   };
-
-  console.log(event)
   Event.saveEvent(event)
     .then(savedEvent => {
       res.status(201).json(savedEvent)

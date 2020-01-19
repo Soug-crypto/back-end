@@ -7,7 +7,7 @@ const profile = require("./Routes/profile");
 const cors = require("cors");
 const path = require("path");
 
-const PORT = 7000;
+const PORT = 5000;
 var app = express();
 
 app.use(express.json());
