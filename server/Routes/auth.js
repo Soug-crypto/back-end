@@ -8,6 +8,7 @@ require("dotenv").config();
 const router = express.Router();
 
 router.post("/signup", (req, res) => {
+  console.log(req.body)
   let { username, email, password } = req.body;
 
   const validation = signUpValidation({ username, email, password });

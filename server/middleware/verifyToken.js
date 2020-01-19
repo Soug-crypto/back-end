@@ -8,7 +8,8 @@ let verifyToken = (req, res, next) => {
     token,
     process.env.JWT_SECRET || "SoSecretThatYouWantToKnowIt",
     (err, user) => {
-      if (err) return res.status(401).send(err);
+      console.log(err);
+      if (err) return res.status(401).send("You need to be connected");
       req.user = user;
       next();
     }

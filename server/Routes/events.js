@@ -7,6 +7,7 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const axios = require("axios");
 
 router.post("/create", verifyToken, (req, res) => {
+  console.log(req.body);
   const event = {
     _id: ObjectId(req.body._id),
     organizerId: req.user._id,
