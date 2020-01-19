@@ -7,20 +7,25 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const axios = require("axios");
 
 router.post("/create", verifyToken, (req, res) => {
-  console.log(req.body);
-  const event = {
-    _id: ObjectId(req.body._id),
-    organizerId: req.user._id,
-    eventName: req.body.eventName,
-    description: req.body.description,
-    date: req.body.date,
-    category: req.body.category,
-    cost: req.body.cost,
-    imgUrl: req.body.imgUrl,
-    location: req.body.location
-  };
-  console.log(event);
-  Event.saveEvent(event)
+  latiLongiGetter(req.body.location)
+    .then(response => {
+      var fetched =
+        response.data["resourceSets"][0]["resources"][0]["point"][
+          "coordinates"
+        ];
+      const event = {
+        _id: ObjectId(req.body._id),
+        organizerId: req.user._id,
+        eventName: req.body.eventName,
+        description: req.body.description,
+        date: req.body.date,
+        category: req.body.category,
+        cost: req.body.cost,
+        imgUrl: req.body.imgUrl,
+        location: { coordinates: fetched }
+      };
+      return Event.saveEvent(event);
+    })
     .then(savedEvent => {
       res.status(201).json(savedEvent);
     })
