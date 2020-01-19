@@ -75,6 +75,7 @@ var latiLongiGetter = address => {
 };
 
 router.post("/upload-img", upload.array("uploads[]", 12), function(req, res) {
+  console.log({ a: req.files });
   res.send(req.files);
 });
 

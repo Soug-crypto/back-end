@@ -18,6 +18,9 @@ app.use("/api/users", authRoute);
 app.use("/api/event", event);
 app.use("/api/profile", profile);
 app.use("/api/events", events);
+app.get("/uploads/:name", (req, res) => {
+  res.sendFile(path.resolve("uploads/", req.params.name));
+});
 app.get("*", (req, res) => {
   res.send("hi");
 });
