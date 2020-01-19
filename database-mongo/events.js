@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const db = require("./index").db;
-
 // mongoose.set('debug', true)
 
 const Location_Schema = mongoose.Schema({
@@ -10,7 +9,6 @@ const Location_Schema = mongoose.Schema({
   },
   coordinates: [Number]
 });
-
 
 const events_Schema = mongoose.Schema({
   _id: mongoose.Types.ObjectId,
@@ -43,7 +41,6 @@ const events_Schema = mongoose.Schema({
 
 const Events = mongoose.model("events", events_Schema);
 
-
 db.collection('events').getIndexes()
   .then((indexes) => {
     if (!indexes.location_2dsphere) {
@@ -56,11 +53,6 @@ db.collection('events').getIndexes()
 
     }
   }).catch(console.error);
-
-
-
-
-
 
 
 const saveEvent = eventInfo => {
@@ -103,13 +95,9 @@ const findNearestEvent = (req, fetched) => {
   lat = parseFloat(lat)
   lng = parseFloat(lng)
 
-  console.log('recieved', lng, lat, maxDistance, category)
-
-
   if (!lat && !lng && !category) {
     throw new Error("Please fill out all parameters")
   }
-
 
   return Events.aggregate([{
     $geoNear: {
@@ -127,10 +115,6 @@ const findNearestEvent = (req, fetched) => {
     }
   }])
 }
-
-
-
-
 
 module.exports.saveEvent = saveEvent;
 module.exports.getAll = getAll;
