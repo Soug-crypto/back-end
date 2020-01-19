@@ -14,7 +14,8 @@ router.post("/create", verifyToken, (req, res) => {
     date: req.body.date,
     category: req.body.category,
     cost: req.body.cost,
-    imgUrl: req.body.imgUrl
+    imgUrl: req.body.imgUrl,
+    location: req.body.location
   };
   console.log(event)
   Event.saveEvent(event)
