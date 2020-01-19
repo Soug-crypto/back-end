@@ -6,7 +6,8 @@ const Event = require("../../database-mongo/events");
 const verifyToken = require("../middleware/verifyToken");
 
 router.patch("/attendEvent", verifyToken, (req, res) => {
-  Event.getOneEventById(req.body.id)
+  console.log(req.body);
+  Event.getOneEventById(req.body.eventID)
     .then(event => User.attendEvent(req.user._id, event))
     .then(data => res.status(204).send(data))
     .catch(err => res.status(500).json(err));
