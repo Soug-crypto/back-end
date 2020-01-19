@@ -5,6 +5,10 @@ const events_Schema = mongoose.Schema({
   eventName: String,
   description: String,
   date: String,
+  location: {
+    latitude: Number,
+    longitude: Number
+  },
   imgUrl: {
     type: String,
     default: "https://source.unsplash.com/random"
