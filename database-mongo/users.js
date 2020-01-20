@@ -32,10 +32,10 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 const attendEvent = (id, event) => {
+  console.log(id);
   return User.findByIdAndUpdate(
     { _id: id },
     { $push: { attendedEvents: event } },
-    { useFindAndModify: false },
     { new: true }
   );
 };

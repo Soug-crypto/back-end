@@ -6,7 +6,8 @@ const Event = require("../../database-mongo/events");
 const verifyToken = require("../middleware/verifyToken");
 
 router.patch("/attendEvent", verifyToken, (req, res) => {
-  Event.getOneEventById(req.body.id)
+  console.log(req.body);
+  Event.getOneEventById(req.body.eventID)
     .then(event => User.attendEvent(req.user._id, event))
     .then(data => res.status(204).send(data))
     .catch(err => res.status(500).json(err));
@@ -22,6 +23,15 @@ router.patch("/retractEvent", verifyToken, (req, res) => {
 router.get("/user", verifyToken, (req, res) => {
   User.getOneById(req.user._id)
     .then(userData => res.status(201).send(userData))
+    .catch(err => res.status(500).json(err));
+});
+router.get("/:id", (req, res) => {
+  console.log(req.params.id);
+  User.getOneById(req.params.id)
+    .then(userData => {
+      console.log({ userData });
+      res.status(201).send(userData);
+    })
     .catch(err => res.status(500).json(err));
 });
 

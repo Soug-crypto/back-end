@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const db = require("./index").db;
-// mongoose.set('debug', true)
 
 const Location_Schema = mongoose.Schema({
   type: {
@@ -22,21 +21,24 @@ const events_Schema = mongoose.Schema({
   video: String,
   category: String,
   cost: String,
+  location: Location_Schema,
   organizerId: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true
   },
-  comments: [{
-    author: String,
-    imgUrl: {
-      type: String,
-      default: "http://www.herbeumont.be/macommune/vie-politique/conseil-communal/img/no-profile-image-png.png/image_view_fullscreen"
-    },
-    content: String
-  }],
-  rating: String,
-  location: Location_Schema
+  comments: [
+    {
+      author: String,
+      imgUrl: {
+        type: String,
+        default:
+          "http://www.herbeumont.be/macommune/vie-politique/conseil-communal/img/no-profile-image-png.png/image_preview"
+      },
+      content: String
+    }
+  ],
+  rating: String
 });
 
 const Events = mongoose.model("events", events_Schema);
@@ -44,13 +46,13 @@ const Events = mongoose.model("events", events_Schema);
 db.collection('events').getIndexes()
   .then((indexes) => {
     if (!indexes.location_2dsphere) {
-      db.collection('events').createIndex({
+      db.collection("events")
+        .createIndex({
           location: "2dsphere"
         })
         .then(() => {
-          console.log("Indexed collection by " + indexes.location_2dsphere)
-        })
-
+          console.log("Indexed collection by " + indexes.location_2dsphere);
+        });
     }
   }).catch(console.error);
 
@@ -69,22 +71,25 @@ const getOneEventById = id => {
     _id: id
   }).populate({
     path: "organizerId",
-    select: "username"
+    select: ["username", "imgUrl"]
   });
 };
 
 const addAComment = (id, comment) => {
-  return Events.findByIdAndUpdate({
-    _id: id
-  }, {
-    $push: {
-      comments: comment
+  return Events.findByIdAndUpdate(
+    {
+      _id: id
+    },
+    {
+      $push: {
+        comments: comment
+      }
+    },
+    {
+      useFindAndModify: false
     }
-  }, {
-    useFindAndModify: false
-  });
+  );
 };
-
 
 const findNearestEvent = (req, fetched) => {
   var lat = req.body.lat || fetched[1];
@@ -96,7 +101,7 @@ const findNearestEvent = (req, fetched) => {
   lng = parseFloat(lng)
 
   if (!lat && !lng && !category) {
-    throw new Error("Please fill out all parameters")
+    throw new Error("Please fill out all parameters");
   }
 
   return Events.aggregate([{
@@ -129,6 +134,7 @@ const updateEvent = (id, changeObj) => {
 }
 
 
+module.exports.findNearestEvent = findNearestEvent;
 module.exports.saveEvent = saveEvent;
 module.exports.getAll = getAll;
 module.exports.addAComment = addAComment;
