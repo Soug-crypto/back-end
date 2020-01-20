@@ -116,8 +116,23 @@ const findNearestEvent = (req, fetched) => {
   }])
 }
 
+const deleteEvent = (id) => {
+  return Events.deleteOne({
+    _id: id
+  })
+}
+
+const updateEvent = (id, changeObj) => {
+  return Events.updateOne({
+    _id: id
+  }, changeObj)
+}
+
+
 module.exports.saveEvent = saveEvent;
 module.exports.getAll = getAll;
 module.exports.addAComment = addAComment;
 module.exports.getOneEventById = getOneEventById;
 module.exports.findNearestEvent = findNearestEvent;
+module.exports.deleteEvent = deleteEvent;
+module.exports.updateEvent = updateEvent;
