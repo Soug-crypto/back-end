@@ -7,26 +7,20 @@ const ObjectId = require("mongoose").Types.ObjectId;
 const axios = require("axios");
 
 router.post("/create", verifyToken, (req, res) => {
-  latiLongiGetter(req.body.location)
-    .then(response => {
-      var fetched =
-        response.data["resourceSets"][0]["resources"][0]["point"][
-          "coordinates"
-        ];
-      const event = {
-        _id: ObjectId(req.body._id),
-        organizerId: req.user._id,
-        eventName: req.body.eventName,
-        description: req.body.description,
-        date: req.body.date,
-        category: req.body.category,
-        cost: req.body.cost,
-        imgUrl: req.body.imgUrl,
-        location: { coordinates: fetched }
-      };
-      return Event.saveEvent(event);
-    })
+  const event = {
+    _id: ObjectId(req.body._id),
+    organizerId: req.user._id,
+    eventName: req.body.eventName,
+    description: req.body.description,
+    date: req.body.date,
+    category: req.body.category,
+    cost: req.body.cost,
+    location: req.body.location,
+    imgUrl: req.body.imgUrl
+  };
+  Event.saveEvent(event)
     .then(savedEvent => {
+      console.log({ saveEvent });
       res.status(201).json(savedEvent);
     })
     .catch(err => {
@@ -75,7 +69,6 @@ var latiLongiGetter = address => {
 };
 
 router.post("/upload-img", upload.array("uploads[]", 12), function(req, res) {
-  console.log({ a: req.files });
   res.send(req.files);
 });
 

@@ -25,5 +25,14 @@ router.get("/user", verifyToken, (req, res) => {
     .then(userData => res.status(201).send(userData))
     .catch(err => res.status(500).json(err));
 });
+router.get("/:id", (req, res) => {
+  console.log(req.params.id);
+  User.getOneById(req.params.id)
+    .then(userData => {
+      console.log({ userData });
+      res.status(201).send(userData);
+    })
+    .catch(err => res.status(500).json(err));
+});
 
 module.exports = router;
