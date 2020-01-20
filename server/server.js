@@ -12,15 +12,18 @@ var app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/users", authRoute);
 app.use("/api/event", event);
 app.use("/api/profile", profile);
 app.use("/api/events", events);
+app.get("/uploads/:name", (req, res) => {
+  res.sendFile(path.resolve("uploads/", req.params.name));
+});
 app.get("*", (req, res) => {
-  res.send("hi")
-})
+  res.send("hi");
+});
 app.listen(PORT, function() {
   console.log(`listening, on port ${PORT}`);
 });
